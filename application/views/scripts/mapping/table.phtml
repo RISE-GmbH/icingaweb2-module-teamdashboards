@@ -1,0 +1,54 @@
+<div class="controls">
+    <?= /** @var \Icinga\Web\Widget\Tabs $tabs */ $tabs ?>
+</div>
+<div class="content">
+    <div class="actions">
+        <?= $this->qlink(
+            $this->translate('Create a new mapping') ,
+            'teamdashboards/mapping/new',
+            null,
+            [
+                'class'             => 'button-link',
+                'data-base-target'  => '_next',
+                'icon'              => 'plus',
+                'title'             => $this->translate('Create a New Job')
+            ]
+        ) ?>
+    </div>
+<?php /** @var \Icinga\Repository\RepositoryQuery $configs */ if (! $configs->hasResult()): ?>
+    <p><?= $this->escape($this->translate('No mapping configured yet.')) ?></p>
+<?php else: ?>
+    <table class="common-table table-row-selectable" data-base-target="_next">
+        <thead>
+            <tr>
+                <th><?= $this->escape($this->translate('Name')) ?></th>
+                <th><?= $this->escape($this->translate('Alias')) ?></th>
+                <th><?= $this->escape($this->translate('Priority')) ?></th>
+                <th><?= $this->escape($this->translate('Goto Dashboard')) ?></th>
+                <th><?= $this->escape($this->translate('enabled')) ?></th>
+            </tr>
+        </thead>
+        <tbody>
+        <?php foreach ($configs as $config): ?>
+            <tr>
+                <td><?= $this->qlink($config->name, 'teamdashboards/mapping/update', ['id' => $config->name]) ?></td>
+                <td><?= $config->alias ?></td>
+                <td><?= $config->priority ?></td>
+                <td><?= $this->qlink($this->translate('View this Dashboard'), 'teamdashboards/team-dashboard', ['user' => $config->name]) ?></td>
+                <td><?= $config->enabled==1?$this->translate('yes'):$this->translate('no') ?></td>
+                <td class="icon-col"><?= $this->qlink(
+                        null,
+                        'teamdashboards/mapping/delete',
+                        array('id' => $config->name),
+                        array(
+                            'class' => 'action-link',
+                            'icon'  => 'cancel',
+                            'title' => $this->translate('Remove this mapping')
+                        )
+                    ) ?></td>
+            </tr>
+        <?php endforeach ?>
+        </tbody>
+    </table>
+<?php endif ?>
+</div>

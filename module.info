@@ -1,0 +1,5 @@
+Name: teamdashboards
+Version: 1.0.0
+
+Description: teamdashboards
+ This module provides the ability to fetch other users dashboards without affecting your own.

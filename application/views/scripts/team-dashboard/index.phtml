@@ -1,0 +1,26 @@
+<div class="controls">
+<?php if (! $this->compact): ?>
+<?= $this->tabs ?>
+<?php endif ?>
+</div>
+<?php if ($this->dashboard): ?>
+    <div class="dashboard content">
+    <?= $this->dashboard ?>
+    </div>
+<?php else: ?>
+    <div class="content">
+        <h1><?= $this->escape($this->translate('Welcome to TeamDashboards!')) ?></h1>
+        <p>
+        <?php if (! $this->hasPermission('teamdashboards/mapping')) {
+            echo $this->escape($this->translate(
+                'Currently this dashboard is not available for you. Please contact the administrator.'
+            ));
+        } else {
+            printf(
+                $this->escape($this->translate('Currently this dashboard is not available for. Maybe it is not enabled?.')),
+                $this->qlink($this->translate('modules'), 'teamdashboards/mapping')
+            );
+        } ?>
+        </p>
+    </div>
+<?php endif ?>
